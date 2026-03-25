@@ -1,13 +1,24 @@
 import fs from 'fs';
 import path from 'path';
 
-const DATA_DIR = path.join(process.cwd(), 'data');
+const isServerless = process.env.NETLIFY === 'true' || process.env.VERCEL === '1' || !!process.env.LAMBDA_TASK_ROOT;
+const DATA_DIR = isServerless ? '/tmp' : path.join(process.cwd(), 'data');
 const POSTS_FILE = path.join(DATA_DIR, 'posts.json');
 const SETTINGS_FILE = path.join(DATA_DIR, 'settings.json');
 
 // Ensure directory exists
-if (!fs.existsSync(DATA_DIR)) {
+if (!isServerless && !fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
+// Initial seed for serverless if file doesn't exist
+if (isServerless && !fs.existsSync(POSTS_FILE)) {
+  const localPosts = path.join(process.cwd(), 'data', 'posts.json');
+  if (fs.existsSync(localPosts)) {
+    fs.copyFileSync(localPosts, POSTS_FILE);
+  } else {
+    fs.writeFileSync(POSTS_FILE, JSON.stringify([], null, 2));
+  }
 }
 
 export function readPosts() {
