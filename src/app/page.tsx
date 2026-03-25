@@ -1,65 +1,78 @@
-import Image from "next/image";
+import Hero from "@/components/Home/Hero";
+import CategoryBar from "@/components/Home/CategoryBar";
+import NewsGrid from "@/components/Home/NewsGrid";
+import VideoSection from "@/components/Home/VideoSection";
+import { readPosts } from "@/lib/jsonDb";
 
-export default function Home() {
+const thoughts = [
+  "Bringing you the truth from every corner of the nation with integrity and speed.",
+  "Journalism is not just a profession; it is a commitment to the public's right to know.",
+  "In a world of noise, we strive to be the clear voice of reason and reality.",
+  "Our camera lenses capture more than images; they capture the heart of the nation.",
+  "Every story matters, because every citizen's experience shapes our democracy.",
+  "We don't just report the news; we explain what it means for you.",
+  "Truth is the only foundation upon which a strong nation can be built.",
+  "Behind every headline is a human story waiting to be understood.",
+  "Fearless reporting is the lifeblood of a transparent society.",
+  "We cross the boundaries to bring the ground realities straight to your screen.",
+  "A free press is the loudest voice of the common man.",
+  "Information is power, and our duty is to empower you.",
+  "We ask the hard questions so you don't have to.",
+  "In the digital age, speed is important, but accuracy is paramount.",
+  "Our fidelity is to the facts, our loyalty is to the people.",
+  "Uncovering the truth is not always easy, but it is always necessary.",
+  "We are the bridge between the events that shape our world and your understanding of them.",
+  "A well-informed public is the best defense against corruption and injustice.",
+  "We bring the news from the margins to the mainstream.",
+  "Journalism is the first draft of history; we aim to write it right.",
+  "Your trust is our most valuable asset, and we work every day to earn it.",
+  "We stand with the truth, no matter who it makes uncomfortable.",
+  "Every breaking news alerts us to our duty: to inform without bias.",
+  "We don't just scratch the surface; we dig deep into the core of the issue.",
+  "The pen and the camera are our instruments of accountability.",
+  "We shine a light in the dark corners where truth is often hidden.",
+  "Our reporters are the eyes and ears of a waking nation.",
+  "We believe in the power of storytelling to create positive change.",
+  "From the bustling cities to the quietest villages, we are there.",
+  "Truth has no agenda, and neither do we."
+];
+
+export default async function Home() {
+  let mappedArticles: any[] = [];
+  try {
+    const allArticles = readPosts();
+    
+    mappedArticles = allArticles.filter((art: any) => art.isPublished !== false).sort((a: any, b: any) => 
+      new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime()
+    ).map((art: any) => ({
+      id: art.id,
+      title: art.title,
+      excerpt: art.excerpt,
+      image: art.image,
+      category: art.category,
+      date: new Date(art.publishDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+    }));
+  } catch (error) {
+    console.error("Failed to load posts:", error);
+  }
+
+  const featuredArticle = mappedArticles.find(a => (a as any).category === 'Featured') || mappedArticles[0];
+  const gridArticles = mappedArticles.filter(a => (a as any).id !== featuredArticle?.id).slice(0, 6);
+
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const diff = now.getTime() - start.getTime();
+  const oneDay = 1000 * 60 * 60 * 24;
+  const dayOfYear = Math.floor(diff / oneDay);
+  const thoughtIndex = dayOfYear % thoughts.length;
+  const currentThought = thoughts[thoughtIndex];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="flex flex-col bg-white">
+      <Hero featuredArticle={featuredArticle} currentThought={currentThought} />
+      <CategoryBar />
+      <NewsGrid articles={gridArticles} />
+      <VideoSection />
     </div>
   );
 }
