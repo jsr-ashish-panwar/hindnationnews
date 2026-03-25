@@ -92,11 +92,11 @@ export default function Hero({
           </div>
 
           {/* Founder Editorial Card */}
-          <div className="mt-6 lg:mt-0 flex flex-col h-full md:space-y-6">
+          <div className="order-first lg:order-last flex flex-col h-full md:space-y-6">
             <h2 className="text-lg md:text-2xl font-bold tracking-tight border-b-2 md:border-b-4 border-black pb-1 md:pb-2 inline-block self-start mb-4 lg:mb-0">Founder's Note</h2>
             
-            <div className="w-full relative rounded-lg overflow-hidden shadow-xl flex-grow min-h-[350px] md:h-[400px] lg:h-auto group bg-black hidden md:flex">
-                {/* Background Image */}
+            <div className="w-full relative rounded-lg overflow-hidden shadow-xl flex-grow min-h-[350px] md:h-[400px] lg:h-auto group bg-black flex">
+                {/* Background Image - Now visible on mobile too */}
                 <div className="absolute inset-0">
                     <img 
                       src="/lalit.PNG" 
@@ -142,15 +142,6 @@ export default function Hero({
                         </button>
                     </div>
 
-                </div>
-            </div>
-            
-            {/* Mobile Founder Note (Reduced) */}
-            <div className="md:hidden mt-2 bg-gray-50 border-l-4 border-primary p-4 rounded-sm">
-                <p className="text-black text-sm italic font-medium leading-snug mb-2">"{currentThought || "Bringing you the truth from every corner of the nation with integrity and speed."}"</p>
-                <div className="flex items-center space-x-2">
-                    <img src="/lalit.PNG" className="w-6 h-6 rounded-full border border-gray-300 object-cover object-top" alt="Avatar" />
-                    <span className="text-xs font-bold text-gray-800">Lalit Shishodia</span>
                 </div>
             </div>
 
