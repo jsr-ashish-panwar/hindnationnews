@@ -4,6 +4,8 @@ import NewsGrid from "@/components/Home/NewsGrid";
 import VideoSection from "@/components/Home/VideoSection";
 import { getPosts } from "@/lib/dataService";
 
+export const dynamic = 'force-dynamic';
+
 const thoughts: string[] = [
   "Bringing you the truth from every corner of the nation with integrity and speed.",
   "Journalism is not just a profession; it is a commitment to the public's right to know.",
