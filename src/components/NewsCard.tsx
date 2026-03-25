@@ -25,8 +25,8 @@ export default function NewsCard({
       className
     )}>
       {/* Image Wrapper */}
-      <div className={cn(
-        "relative overflow-hidden shrink-0 bg-gray-100 rounded-sm md:rounded-none",
+      <Link href={`/news/${id}`} className={cn(
+        "relative overflow-hidden shrink-0 bg-gray-100 rounded-sm md:rounded-none block",
         isHorizontal ? "w-full md:w-1/2 aspect-video" : "w-[120px] md:w-full aspect-square md:aspect-[16/10]"
       )}>
         <img 
@@ -39,7 +39,7 @@ export default function NewsCard({
             {category}
           </span>
         </div>
-      </div>
+      </Link>
 
       {/* Content */}
       <div className={cn(

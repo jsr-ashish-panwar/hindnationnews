@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from 'react';
+import Link from 'next/link';
 import NewsCard from '@/components/NewsCard';
 
 interface Article {
@@ -59,14 +60,18 @@ export default function Hero({
                       <div className="w-8 h-0.5 bg-primary mr-3"></div>
                       <span className="text-primary">{featured.date}</span>
                    </div>
-                   <h1 className="text-4xl xl:text-6xl font-bold text-white mb-6 leading-[1.1] group-hover:text-primary transition-colors cursor-pointer tracking-tight drop-shadow-xl">
-                       {featured.title}
-                   </h1>
-                   <p className="text-white font-medium mb-8 text-lg md:text-xl leading-relaxed line-clamp-2 drop-shadow-md">{featured.excerpt}</p>
-                   <button className="bg-primary text-white px-10 py-4 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all rounded-sm shadow-xl flex items-center group/btn">
-                       <span>Read Full Story</span>
-                   </button>
-                </div>
+                    <Link href={`/news/${featured.id}`}>
+                      <h1 className="text-4xl xl:text-6xl font-bold text-white mb-6 leading-[1.1] hover:text-primary transition-colors cursor-pointer tracking-tight drop-shadow-xl">
+                          {featured.title}
+                      </h1>
+                    </Link>
+                    <p className="text-white font-medium mb-8 text-lg md:text-xl leading-relaxed line-clamp-2 drop-shadow-md">{featured.excerpt}</p>
+                    <Link href={`/news/${featured.id}`} className="inline-block">
+                      <button className="bg-primary text-white px-10 py-4 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all rounded-sm shadow-xl flex items-center group/btn">
+                          <span>Read Full Story</span>
+                      </button>
+                    </Link>
+                 </div>
             </div>
             
             {/* Mobile/Tablet Content (Visible on non-overlay) */}
@@ -74,11 +79,15 @@ export default function Hero({
                <div className="flex items-center text-gray-500 text-[10px] font-bold uppercase tracking-widest mb-3">
                   <span className="text-primary">{featured.date}</span>
                </div>
-               <h2 className="text-2xl md:text-3xl font-bold text-black mb-2 leading-tight tracking-tight">
-                  {featured.title}
-               </h2>
+               <Link href={`/news/${featured.id}`}>
+                 <h2 className="text-2xl md:text-3xl font-bold text-black mb-2 leading-tight tracking-tight hover:text-primary">
+                    {featured.title}
+                 </h2>
+               </Link>
                <p className="text-gray-900 font-medium text-sm md:text-base leading-snug line-clamp-2 md:line-clamp-3 mb-4">{featured.excerpt}</p>
-               <button className="text-primary font-bold uppercase tracking-widest text-xs">Read Full Story →</button>
+               <Link href={`/news/${featured.id}`} className="text-primary font-bold uppercase tracking-widest text-xs">
+                 Read Full Story →
+               </Link>
             </div>
           </div>
 
