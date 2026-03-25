@@ -30,7 +30,8 @@ export default function NewArticle() {
     image: '',
     isTrending: false,
     isPublished: true,
-    author: 'Lalit Shishodia'
+    author: 'Lalit Shishodia',
+    publishDate: new Date().toISOString()
   });
 
   useEffect(() => {

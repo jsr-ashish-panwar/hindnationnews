@@ -72,19 +72,28 @@ export async function savePost(data: PostData): Promise<PostData> {
   const isUpdate = !!(data.id || data._id);
   const targetId = data.id || data._id;
 
+  // Ensure publishDate is valid
+  const pDate = data.publishDate ? new Date(data.publishDate) : new Date();
+  const publishDate = isNaN(pDate.getTime()) ? new Date() : pDate;
+  
+  const refinedData = {
+    ...data,
+    publishDate: publishDate.toISOString()
+  };
+
   if (isMongoEnabled) {
     try {
       await dbConnect();
       if (isUpdate) {
         const updated = await Post.findOneAndUpdate(
           { $or: [{ _id: targetId }, { id: targetId }] },
-          { ...data, updatedAt: new Date() },
+          { ...refinedData, updatedAt: new Date() },
           { new: true, upsert: true }
         ).lean();
         return JSON.parse(JSON.stringify(updated));
       } else {
         const created = await Post.create({
-          ...data,
+          ...refinedData,
           id: data.id || `manual-${Date.now()}`,
           source: data.source || 'manual',
           sourceId: data.sourceId || `manual-${Date.now()}`
@@ -100,7 +109,7 @@ export async function savePost(data: PostData): Promise<PostData> {
   // JSON Fallback
   const posts = readPosts();
   const refinedPost = {
-    ...data,
+    ...refinedData,
     id: targetId || `manual-${Date.now()}`,
     source: data.source || 'manual',
     sourceId: data.sourceId || `manual-${Date.now()}`,

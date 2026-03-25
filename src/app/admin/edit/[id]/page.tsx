@@ -22,7 +22,8 @@ export default function EditArticle() {
 
   const [formData, setFormData] = useState({
     title: '', excerpt: '', content: '', category: 'Politics',
-    image: '', isTrending: false, isPublished: true, author: 'Lalit Shishodia'
+    image: '', isTrending: false, isPublished: true, author: 'Lalit Shishodia',
+    publishDate: ''
   });
 
   useEffect(() => {
@@ -46,6 +47,7 @@ export default function EditArticle() {
         isTrending: data.isTrending || false,
         isPublished: data.isPublished !== undefined ? data.isPublished : true,
         author: data.author || 'Lalit Shishodia',
+        publishDate: data.publishDate || '',
       });
     } catch { setError('Failed to load article.'); }
     finally { setLoading(false); }

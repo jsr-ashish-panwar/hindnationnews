@@ -42,20 +42,28 @@ export default async function Home() {
   try {
     const allArticles = await getPosts();
     
-    mappedArticles = allArticles.filter((art: any) => art.isPublished !== false).map((art: any) => ({
-      id: art.id || art._id,
-      title: art.title,
-      excerpt: art.excerpt,
-      image: art.image,
-      category: art.category,
-      date: new Date(art.publishDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
-    }));
+    mappedArticles = allArticles.filter((art: any) => art.isPublished !== false).map((art: any) => {
+      const pubDate = new Date(art.publishDate);
+      const validDate = isNaN(pubDate.getTime()) ? new Date() : pubDate;
+      
+      return {
+        id: art.id || art._id,
+        title: art.title,
+        excerpt: art.excerpt,
+        image: art.image,
+        category: art.category,
+        date: validDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+      };
+    });
   } catch (error) {
     console.error("Failed to load posts:", error);
   }
 
   const featuredArticle = mappedArticles.find(a => (a as any).category === 'Featured') || mappedArticles[0];
-  const gridArticles = mappedArticles.filter(a => (a as any).id !== featuredArticle?.id).slice(0, 6);
+  // If there are very few articles, include the featured one in the grid so it's not empty
+  const gridArticles = mappedArticles.length > 3 
+    ? mappedArticles.filter(a => (a as any).id !== featuredArticle?.id).slice(0, 6)
+    : mappedArticles.slice(0, 6);
 
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);

@@ -351,7 +351,9 @@ export default function AdminDashboard() {
                           </div>
                         </td>
                         <td className="px-6 py-5 text-xs font-medium text-gray-500 whitespace-nowrap">
-                          {new Date(post.publishDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                          {post.publishDate && !isNaN(new Date(post.publishDate).getTime()) 
+                            ? new Date(post.publishDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+                            : 'Recently'}
                         </td>
                         <td className="px-6 py-5 text-right">
                           <div className="flex items-center justify-end space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
