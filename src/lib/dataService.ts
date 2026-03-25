@@ -1,6 +1,7 @@
 import dbConnect from './mongodb';
 import Post from '@/models/Post';
-import { readPosts, writePosts } from './jsonDb';
+import Settings from '@/models/Settings';
+import { readPosts, writePosts, readSettings, writeSettings } from './jsonDb';
 
 export interface PostData {
   id?: string;
@@ -18,6 +19,19 @@ export interface PostData {
   isPublished?: boolean;
   createdAt?: string | Date;
   updatedAt?: string | Date;
+}
+
+export interface SettingsData {
+  siteName: string;
+  tagline: string;
+  contactEmail: string;
+  contactPhone: string;
+  facebookUrl?: string;
+  twitterUrl?: string;
+  instagramUrl?: string;
+  youtubeUrl?: string;
+  articlesPerPage: number;
+  breakingNewsTicker: string;
 }
 
 const isMongoEnabled = !!process.env.MONGODB_URI && process.env.MONGODB_URI.startsWith('mongodb');
@@ -79,7 +93,7 @@ export async function savePost(data: PostData): Promise<PostData> {
       }
     } catch (error) {
       console.error('MongoDB Save Error, fallback to JSON:', error);
-      if (isServerless()) throw error; // Don't hide errors in production
+      if (isServerless()) throw error;
     }
   }
 
@@ -124,6 +138,47 @@ export async function deletePost(id: string): Promise<boolean> {
     return true;
   }
   return false;
+}
+
+export async function getSettings(): Promise<SettingsData> {
+  if (isMongoEnabled) {
+    try {
+      await dbConnect();
+      const settings = await Settings.findOne({ id: 'global' }).lean();
+      if (settings) return JSON.parse(JSON.stringify(settings));
+    } catch (error) {
+      console.error('MongoDB Settings Fetch Error:', error);
+    }
+  }
+
+  return readSettings() || {
+    siteName: 'HIND NATION NEWS',
+    tagline: "India's Voice, Your News Portal",
+    contactEmail: 'info@hindnationnews.com',
+    contactPhone: '+91 99108 35426',
+    articlesPerPage: 10,
+    breakingNewsTicker: 'Stay tuned for the latest breaking news from across India.'
+  };
+}
+
+export async function saveSettings(data: SettingsData): Promise<SettingsData> {
+  if (isMongoEnabled) {
+    try {
+      await dbConnect();
+      const updated = await Settings.findOneAndUpdate(
+        { id: 'global' },
+        { ...data, id: 'global' },
+        { new: true, upsert: true }
+      ).lean();
+      return JSON.parse(JSON.stringify(updated));
+    } catch (error) {
+      console.error('MongoDB Settings Save Error:', error);
+      if (isServerless()) throw error;
+    }
+  }
+
+  writeSettings(data);
+  return data;
 }
 
 function isServerless() {

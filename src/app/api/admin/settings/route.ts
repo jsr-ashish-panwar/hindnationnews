@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { readSettings, writeSettings } from '@/lib/jsonDb';
+import { getSettings, saveSettings } from '@/lib/dataService';
 
 export async function GET(request: Request) {
   const secret = request.headers.get('x-admin-secret');
@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const settings = readSettings() || { siteName: 'HIND NATION NEWS' };
+    const settings = await getSettings();
     return NextResponse.json(settings);
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Failed to fetch settings' }, { status: 500 });
@@ -25,8 +25,8 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    writeSettings(body);
-    return NextResponse.json(body);
+    const updated = await saveSettings(body);
+    return NextResponse.json(updated);
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Failed to save settings' }, { status: 500 });
   }
