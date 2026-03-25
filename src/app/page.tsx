@@ -2,9 +2,9 @@ import Hero from "@/components/Home/Hero";
 import CategoryBar from "@/components/Home/CategoryBar";
 import NewsGrid from "@/components/Home/NewsGrid";
 import VideoSection from "@/components/Home/VideoSection";
-import { readPosts } from "@/lib/jsonDb";
+import { getPosts } from "@/lib/dataService";
 
-const thoughts = [
+const thoughts: string[] = [
   "Bringing you the truth from every corner of the nation with integrity and speed.",
   "Journalism is not just a profession; it is a commitment to the public's right to know.",
   "In a world of noise, we strive to be the clear voice of reason and reality.",
@@ -40,12 +40,10 @@ const thoughts = [
 export default async function Home() {
   let mappedArticles: any[] = [];
   try {
-    const allArticles = readPosts();
+    const allArticles = await getPosts();
     
-    mappedArticles = allArticles.filter((art: any) => art.isPublished !== false).sort((a: any, b: any) => 
-      new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime()
-    ).map((art: any) => ({
-      id: art.id,
+    mappedArticles = allArticles.filter((art: any) => art.isPublished !== false).map((art: any) => ({
+      id: art.id || art._id,
       title: art.title,
       excerpt: art.excerpt,
       image: art.image,
