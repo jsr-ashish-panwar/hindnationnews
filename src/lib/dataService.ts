@@ -1,7 +1,7 @@
 import dbConnect from './mongodb';
 import Post from '@/models/Post';
 import Settings from '@/models/Settings';
-import { readPosts, writePosts, readSettings, writeSettings } from './jsonDb';
+import { readPosts, writePosts, readSettings, writeSettings, readVideos, writeVideos } from './jsonDb';
 
 export interface PostData {
   id?: string;
@@ -188,6 +188,12 @@ export async function saveSettings(data: SettingsData): Promise<SettingsData> {
 
   writeSettings(data);
   return data;
+}
+
+export async function getVideos(): Promise<any[]> {
+  // For now, videos are only in JSON to keep it simple as requested
+  // but we can add MongoDB support here later if needed
+  return readVideos();
 }
 
 function isServerless() {

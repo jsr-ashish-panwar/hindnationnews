@@ -1,43 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { Play, Calendar, Youtube } from 'lucide-react';
+import { getVideos } from '@/lib/dataService';
 
-const videos = [
-  {
-    id: '23iKkISAOsk',
-    title: "भारत में गैस की किल्लत कब तक? - Exclusive Report",
-    thumbnail: "https://img.youtube.com/vi/23iKkISAOsk/maxresdefault.jpg",
-    url: "https://www.youtube.com/watch?v=23iKkISAOsk",
-    duration: "10:32",
-    date: "Mar 26, 2026"
-  },
-  {
-    id: 'SowM75jy0Go',
-    title: "अध्यापक के सामने नई समस्या टेट? - Latest Update",
-    thumbnail: "https://img.youtube.com/vi/SowM75jy0Go/maxresdefault.jpg",
-    url: "https://www.youtube.com/watch?v=SowM75jy0Go",
-    duration: "08:15",
-    date: "Mar 25, 2026"
-  },
-  {
-    id: 'F04VUEbesms',
-    title: "फरसा बाबा की हत्या या फिर साजिश - Investigative Report",
-    thumbnail: "https://img.youtube.com/vi/F04VUEbesms/maxresdefault.jpg",
-    url: "https://www.youtube.com/watch?v=F04VUEbesms",
-    duration: "12:45",
-    date: "Mar 24, 2026"
-  },
-  {
-    id: 'aSPFJQbRChg',
-    title: "दमोहा मध्यप्रदेश में भारत विश्वकर्मा हत्याकांड की सच्चाई",
-    thumbnail: "https://img.youtube.com/vi/aSPFJQbRChg/maxresdefault.jpg",
-    url: "https://www.youtube.com/watch?v=aSPFJQbRChg",
-    duration: "15:20",
-    date: "Mar 23, 2026"
-  }
-];
-
-export default function VideoSection() {
+export default async function VideoSection() {
+  const videos = await getVideos();
+  
   return (
     <section className="py-16 bg-black text-white">
       <div className="container mx-auto px-4 md:px-6">
@@ -62,7 +30,12 @@ export default function VideoSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {videos.map((video) => (
+          {videos.length === 0 && (
+             <div className="col-span-full py-20 text-center text-gray-500 italic">
+               No videos in the portal yet.
+             </div>
+          )}
+          {videos.map((video: any) => (
             <a key={video.id} href={video.url || "https://www.youtube.com/@lalitshishodia15"} target="_blank" rel="noopener noreferrer" className="group">
               <div className="relative aspect-video overflow-hidden rounded-sm mb-4">
                 <img 
@@ -76,7 +49,7 @@ export default function VideoSection() {
                     </div>
                 </div>
                 <div className="absolute bottom-2 right-2 bg-black/80 text-[10px] font-bold px-2 py-1">
-                    {video.duration}
+                    {video.duration || '00:00'}
                 </div>
               </div>
               <h3 className="font-bold text-lg leading-tight group-hover:text-red-600 transition-colors line-clamp-2">

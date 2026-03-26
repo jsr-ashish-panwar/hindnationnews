@@ -28,7 +28,10 @@ import {
   AlertCircle,
   ArrowUp,
   ArrowDown,
-  Minus
+  Minus,
+  Youtube,
+  Play,
+  Calendar
 } from 'lucide-react';
 
 interface Article {
@@ -53,6 +56,10 @@ export default function AdminDashboard() {
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('news');
   const [searchQuery, setSearchQuery] = useState('');
+  const [videos, setVideos] = useState<any[]>([]);
+  const [newVideoUrl, setNewVideoUrl] = useState('');
+  const [newVideoTitle, setNewVideoTitle] = useState('');
+  const [isAddingVideo, setIsAddingVideo] = useState(false);
   const [settingsSaved, setSettingsSaved] = useState(false);
   const [settings, setSettings] = useState({
     siteName: 'HIND NATION NEWS',
@@ -73,7 +80,20 @@ export default function AdminDashboard() {
     if (!secret) { router.push('/admin/login'); return; }
     fetchPosts(secret);
     fetchSettings(secret);
+    fetchVideos(secret);
   }, []);
+
+  const fetchVideos = async (secret: string) => {
+    try {
+      const res = await fetch('/api/admin/videos', { headers: { 'x-admin-secret': secret } });
+      if (res.ok) {
+        const data = await res.json();
+        setVideos(data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch videos:', err);
+    }
+  };
 
   const fetchPosts = async (secret: string) => {
     try {
@@ -148,6 +168,57 @@ export default function AdminDashboard() {
   };
 
   const handleLogout = () => { localStorage.removeItem('admin_secret'); router.push('/admin/login'); };
+
+  const handleAddVideo = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const secret = localStorage.getItem('admin_secret') || '';
+    
+    // Extract video ID from URL
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = newVideoUrl.match(regExp);
+    const videoId = (match && match[2].length === 11) ? match[2] : null;
+
+    if (!videoId) return alert('Invalid YouTube URL');
+
+    const videoData = {
+      id: videoId,
+      title: newVideoTitle || 'Untitled Video',
+      thumbnail: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+      url: newVideoUrl,
+      duration: '00:00', // Mock duration or fetch if possible
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    };
+
+    try {
+      const res = await fetch('/api/admin/videos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-secret': secret },
+        body: JSON.stringify({ action: 'add', video: videoData })
+      });
+      if (res.ok) {
+        setVideos([videoData, ...videos]);
+        setNewVideoUrl('');
+        setNewVideoTitle('');
+        setIsAddingVideo(false);
+      } else {
+        alert('Failed to add video');
+      }
+    } catch { alert('Network error'); }
+  };
+
+  const handleDeleteVideo = async (id: string) => {
+    if (!confirm('Delete this video from the portal?')) return;
+    const secret = localStorage.getItem('admin_secret') || '';
+    try {
+      const res = await fetch('/api/admin/videos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-secret': secret },
+        body: JSON.stringify({ action: 'delete', id })
+      });
+      if (res.ok) setVideos(videos.filter(v => v.id !== id));
+      else alert('Failed to delete video');
+    } catch { alert('Network error'); }
+  };
 
   const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -232,6 +303,7 @@ export default function AdminDashboard() {
         <nav className="space-y-1.5 flex-grow">
           <SidebarBtn id="news" icon={Newspaper} label="Manage News" />
           <SidebarBtn id="trending" icon={TrendingUp} label="Trending" />
+          <SidebarBtn id="videos" icon={Youtube} label="Videos" />
           <SidebarBtn id="analytics" icon={BarChart3} label="Analytics" />
           <SidebarBtn id="settings" icon={Settings} label="Settings" />
         </nav>
@@ -576,6 +648,110 @@ export default function AdminDashboard() {
                   )})}
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* ─── VIDEOS TAB ─── */}
+        {activeTab === 'videos' && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <header className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 space-y-4 md:space-y-0">
+              <div>
+                <h1 className="text-3xl font-bold uppercase tracking-tighter text-black mb-1">Video Portal Manager</h1>
+                <p className="text-gray-500 font-medium text-sm">Manage the video content displayed on the home page.</p>
+              </div>
+              <button 
+                onClick={() => setIsAddingVideo(!isAddingVideo)}
+                className="inline-flex items-center space-x-2 bg-black text-white px-6 py-3.5 rounded-2xl font-bold uppercase tracking-widest hover:bg-primary hover:text-black transition-all shadow-lg text-sm"
+              >
+                <Plus className={`w-4 h-4 transition-transform ${isAddingVideo ? 'rotate-45' : ''}`} />
+                <span>{isAddingVideo ? 'Cancel' : 'Add New Video'}</span>
+              </button>
+            </header>
+
+            {isAddingVideo && (
+              <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 mb-8 animate-in slide-in-from-top-4 duration-300">
+                <form onSubmit={handleAddVideo} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">YouTube Video URL</label>
+                      <input 
+                        required
+                        type="url" 
+                        placeholder="https://www.youtube.com/watch?v=..."
+                        value={newVideoUrl} 
+                        onChange={e => setNewVideoUrl(e.target.value)} 
+                        className="w-full px-5 py-3.5 bg-gray-50 border-2 border-transparent focus:border-primary rounded-2xl font-bold text-sm outline-none transition-all text-black" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Video Title</label>
+                      <input 
+                        required
+                        type="text" 
+                        placeholder="Enter video title..."
+                        value={newVideoTitle} 
+                        onChange={e => setNewVideoTitle(e.target.value)} 
+                        className="w-full px-5 py-3.5 bg-gray-50 border-2 border-transparent focus:border-primary rounded-2xl font-bold text-sm outline-none transition-all text-black" 
+                      />
+                    </div>
+                  </div>
+                  <button type="submit" className="w-full md:w-auto px-10 py-4 bg-primary text-black rounded-2xl font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all shadow-xl text-sm">
+                    Save Video to Portal
+                  </button>
+                </form>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {videos.length === 0 && (
+                <div className="col-span-full py-20 text-center text-gray-400 italic font-medium bg-white rounded-3xl border border-gray-100">
+                  No videos added to the portal yet.
+                </div>
+              )}
+              {videos.map((video: any) => (
+                <div key={video.id} className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 group hover:shadow-md transition-all">
+                  <div className="relative aspect-video">
+                    <img 
+                      src={video.thumbnail} 
+                      alt={video.title} 
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                      <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-black shadow-xl opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100">
+                        <Play className="w-6 h-6 fill-current" />
+                      </div>
+                    </div>
+                    <div className="absolute top-4 right-4 flex space-x-2">
+                       <button onClick={() => handleDeleteVideo(video.id)} className="p-2 bg-white/90 text-red-500 hover:bg-white rounded-xl shadow-lg transition-all">
+                          <Trash2 className="w-4 h-4" />
+                       </button>
+                    </div>
+                    <div className="absolute bottom-4 left-4 bg-black/70 text-white text-[10px] font-bold px-2 py-1 rounded">
+                      {video.duration}
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <h3 className="font-bold text-black group-hover:text-primary transition-colors line-clamp-2 min-h-[3rem]">
+                      {video.title}
+                    </h3>
+                    <div className="flex items-center justify-between mt-4">
+                      <div className="flex items-center text-gray-400 text-[10px] font-bold uppercase tracking-widest">
+                        <Calendar className="w-3 h-3 mr-1.5" />
+                        {video.date}
+                      </div>
+                      <a 
+                        href={video.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-[10px] font-bold uppercase tracking-widest text-primary hover:underline"
+                      >
+                        Watch on YouTube
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
