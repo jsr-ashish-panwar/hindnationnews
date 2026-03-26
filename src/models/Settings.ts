@@ -18,7 +18,7 @@ const SettingsSchema: Schema = new Schema({
   id: { type: String, default: 'global', unique: true },
   siteName: { type: String, default: 'HIND NATION NEWS' },
   tagline: { type: String, default: "India's Voice, Your News Portal" },
-  contactEmail: { type: String, default: 'info@hindnationnews.com' },
+  contactEmail: { type: String, default: 'hindnationnews18x7@gmail.com' },
   contactPhone: { type: String, default: '+91 99108 35426' },
   facebookUrl: { type: String },
   twitterUrl: { type: String, default: 'https://x.com/cahindnews' },

@@ -51,7 +51,7 @@ export default function Footer() {
 
   const contactInfo = {
     phone: settings?.contactPhone || '+91 99108 35426',
-    email: settings?.contactEmail || 'info@hindnationnews.com'
+    email: settings?.contactEmail || 'hindnationnews18x7@gmail.com'
   };
 
   return (

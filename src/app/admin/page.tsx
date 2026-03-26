@@ -64,7 +64,7 @@ export default function AdminDashboard() {
   const [settings, setSettings] = useState({
     siteName: 'HIND NATION NEWS',
     tagline: "India's Voice, Your News Portal",
-    contactEmail: 'info@hindnationnews.com',
+    contactEmail: 'hindnationnews18x7@gmail.com',
     contactPhone: '+91 99108 35426',
     facebookUrl: '',
     twitterUrl: 'https://x.com/cahindnews',
@@ -114,7 +114,7 @@ export default function AdminDashboard() {
         setSettings({
           siteName: data.siteName || 'HIND NATION NEWS',
           tagline: data.tagline || "India's Voice, Your News Portal",
-          contactEmail: data.contactEmail || 'info@hindnationnews.com',
+          contactEmail: data.contactEmail || 'hindnationnews18x7@gmail.com',
           contactPhone: data.contactPhone || '+91 99108 35426',
           facebookUrl: data.facebookUrl || '',
           twitterUrl: data.twitterUrl || 'https://x.com/cahindnews',

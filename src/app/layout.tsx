@@ -33,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable}`}>
-      <body className="font-sans bg-white text-black min-h-screen flex flex-col">
+      <body className="font-sans bg-white text-black min-h-screen flex flex-col overflow-x-hidden">
         <Header />
         <BreakingNews />
         <main className="flex-grow">

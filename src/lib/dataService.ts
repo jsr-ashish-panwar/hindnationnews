@@ -163,7 +163,7 @@ export async function getSettings(): Promise<SettingsData> {
   return readSettings() || {
     siteName: 'HIND NATION NEWS',
     tagline: "India's Voice, Your News Portal",
-    contactEmail: 'info@hindnationnews.com',
+    contactEmail: 'hindnationnews18x7@gmail.com',
     contactPhone: '+91 99108 35426',
     articlesPerPage: 10,
     breakingNewsTicker: 'Stay tuned for the latest breaking news from across India.'
