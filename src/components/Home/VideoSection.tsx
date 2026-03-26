@@ -4,32 +4,36 @@ import { Play, Calendar, Youtube } from 'lucide-react';
 
 const videos = [
   {
-    id: 'v1',
-    title: "Inside the Changing Landscape of Rural India - Exclusive Report",
-    thumbnail: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=2013&auto=format&fit=crop",
+    id: '23iKkISAOsk',
+    title: "भारत में गैस की किल्लत कब तक? - Exclusive Report",
+    thumbnail: "https://img.youtube.com/vi/23iKkISAOsk/maxresdefault.jpg",
+    url: "https://www.youtube.com/watch?v=23iKkISAOsk",
+    duration: "10:32",
+    date: "Mar 26, 2026"
+  },
+  {
+    id: 'SowM75jy0Go',
+    title: "अध्यापक के सामने नई समस्या टेट? - Latest Update",
+    thumbnail: "https://img.youtube.com/vi/SowM75jy0Go/maxresdefault.jpg",
+    url: "https://www.youtube.com/watch?v=SowM75jy0Go",
+    duration: "08:15",
+    date: "Mar 25, 2026"
+  },
+  {
+    id: 'F04VUEbesms',
+    title: "फरसा बाबा की हत्या या फिर साजिश - Investigative Report",
+    thumbnail: "https://img.youtube.com/vi/F04VUEbesms/maxresdefault.jpg",
+    url: "https://www.youtube.com/watch?v=F04VUEbesms",
     duration: "12:45",
-    date: "Oct 24, 2026"
+    date: "Mar 24, 2026"
   },
   {
-    id: 'v2',
-    title: "Real Estate Market Analysis: Is Now the Time to Buy?",
-    thumbnail: "https://images.unsplash.com/photo-1460472178825-e5240623abe5?q=80&w=2070&auto=format&fit=crop",
-    duration: "08:32",
-    date: "Oct 22, 2026"
-  },
-  {
-    id: 'v3',
-    title: "Political Debate: The Future of Urban Local Bodies",
-    thumbnail: "https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?q=80&w=2070&auto=format&fit=crop",
+    id: 'aSPFJQbRChg',
+    title: "दमोहा मध्यप्रदेश में भारत विश्वकर्मा हत्याकांड की सच्चाई",
+    thumbnail: "https://img.youtube.com/vi/aSPFJQbRChg/maxresdefault.jpg",
+    url: "https://www.youtube.com/watch?v=aSPFJQbRChg",
     duration: "15:20",
-    date: "Oct 20, 2026"
-  },
-  {
-    id: 'v4',
-    title: "Technology Trends that will define 2027",
-    thumbnail: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
-    duration: "10:15",
-    date: "Oct 18, 2026"
+    date: "Mar 23, 2026"
   }
 ];
 
@@ -59,7 +63,7 @@ export default function VideoSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {videos.map((video) => (
-            <a key={video.id} href="https://www.youtube.com/@lalitshishodia15" target="_blank" rel="noopener noreferrer" className="group">
+            <a key={video.id} href={video.url || "https://www.youtube.com/@lalitshishodia15"} target="_blank" rel="noopener noreferrer" className="group">
               <div className="relative aspect-video overflow-hidden rounded-sm mb-4">
                 <img 
                   src={video.thumbnail} 
