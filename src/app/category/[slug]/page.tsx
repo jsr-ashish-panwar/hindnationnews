@@ -1,20 +1,23 @@
 import React from 'react';
 import CategoryBar from '@/components/Home/CategoryBar';
 import NewsGrid from '@/components/Home/NewsGrid';
-import { readPosts } from '@/lib/jsonDb';
+import { getPosts } from '@/lib/dataService';
 
-export default async function CategoryPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export const dynamic = 'force-dynamic';
+
+export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const decodedCategory = decodeURIComponent(slug).toLowerCase().replace(/-/g, ' ');
   
-  const allArticles = readPosts();
+  const allArticles = await getPosts();
   const categoryArticles = allArticles.filter((art: any) => 
     art.isPublished !== false && 
     (decodedCategory === 'all news' || art.category.toLowerCase() === decodedCategory)
   ).map((art: any) => ({
-    id: art.id,
+    id: art.id || art._id,
     title: art.title,
-    excerpt: art.excerpt,    image: art.image,
+    excerpt: art.excerpt,
+    image: art.image,
     category: art.category,
     date: new Date(art.publishDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
   }));
