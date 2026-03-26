@@ -1,5 +1,5 @@
-import { readPosts, readSettings, readVideos } from './src/lib/jsonDb';
-import { adminDb } from './src/lib/firebaseAdmin';
+import { readPosts, readSettings, readVideos } from '../src/lib/jsonDb';
+import { adminDb } from '../src/lib/firebaseAdmin';
 
 async function migrate() {
   console.log('Starting migration...');

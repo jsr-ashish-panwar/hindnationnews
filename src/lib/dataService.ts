@@ -2,7 +2,7 @@ import dbConnect from './mongodb';
 import Post from '@/models/Post';
 import Settings from '@/models/Settings';
 import { readPosts, writePosts, readSettings, writeSettings, readVideos, writeVideos } from './jsonDb';
-import { adminDb } from './firebaseAdmin';
+import { adminDb, isFirebaseAdminReady } from './firebaseAdmin';
 
 export interface PostData {
   id?: string;
@@ -36,7 +36,7 @@ export interface SettingsData {
 }
 
 const isMongoEnabled = !!process.env.MONGODB_URI && process.env.MONGODB_URI.startsWith('mongodb');
-const isFirebaseEnabled = !!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+const isFirebaseEnabled = isFirebaseAdminReady;
 
 export async function getPosts(): Promise<PostData[]> {
   if (isFirebaseEnabled) {
@@ -65,9 +65,9 @@ export async function getPosts(): Promise<PostData[]> {
 }
 
 export async function getPostById(id: string): Promise<PostData | null> {
-  if (isFirebaseEnabled) {
+  if (isFirebaseEnabled && id) {
     try {
-      const doc = await adminDb.collection('posts').doc(id).get();
+      const doc = await adminDb.collection('posts').doc(String(id)).get();
       if (doc.exists) return { id: doc.id, ...doc.data() } as PostData;
     } catch (error) {
       console.error('Firebase Detail Fetch Error:', error);
@@ -103,8 +103,8 @@ export async function savePost(data: PostData): Promise<PostData> {
 
   if (isFirebaseEnabled) {
     try {
-      const docRef = isUpdate 
-        ? adminDb.collection('posts').doc(targetId)
+      const docRef = isUpdate && targetId
+        ? adminDb.collection('posts').doc(targetId as string)
         : adminDb.collection('posts').doc();
       
       const finalData = {
@@ -174,9 +174,9 @@ export async function savePost(data: PostData): Promise<PostData> {
 }
 
 export async function deletePost(id: string): Promise<boolean> {
-  if (isFirebaseEnabled) {
+  if (isFirebaseEnabled && id) {
     try {
-      await adminDb.collection('posts').doc(id).delete();
+      await adminDb.collection('posts').doc(String(id)).delete();
       return true;
     } catch (error) {
       console.error('Firebase Delete Error:', error);
