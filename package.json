@@ -11,8 +11,6 @@
   "dependencies": {
     "@prisma/client": "^7.5.0",
     "clsx": "^2.1.1",
-    "firebase": "^12.11.0",
-    "firebase-admin": "^13.7.0",
     "lucide-react": "^0.460.0",
     "mongoose": "^9.3.2",
     "next": "16.2.1",

@@ -2,7 +2,6 @@ import dbConnect from './mongodb';
 import Post from '@/models/Post';
 import Settings from '@/models/Settings';
 import { readPosts, writePosts, readSettings, writeSettings, readVideos, writeVideos } from './jsonDb';
-import { adminDb, isFirebaseAdminReady } from './firebaseAdmin';
 
 export interface PostData {
   id?: string;
@@ -36,18 +35,8 @@ export interface SettingsData {
 }
 
 const isMongoEnabled = !!process.env.MONGODB_URI && process.env.MONGODB_URI.startsWith('mongodb');
-const isFirebaseEnabled = isFirebaseAdminReady;
 
 export async function getPosts(): Promise<PostData[]> {
-  if (isFirebaseEnabled) {
-    try {
-      const snapshot = await adminDb.collection('posts').orderBy('publishDate', 'desc').get();
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as PostData));
-    } catch (error) {
-      console.error('Firebase Fetch Error, falling back:', error);
-    }
-  }
-
   if (isServerless() && isMongoEnabled) {
     try {
       await dbConnect();
@@ -65,15 +54,6 @@ export async function getPosts(): Promise<PostData[]> {
 }
 
 export async function getPostById(id: string): Promise<PostData | null> {
-  if (isFirebaseEnabled && id) {
-    try {
-      const doc = await adminDb.collection('posts').doc(String(id)).get();
-      if (doc.exists) return { id: doc.id, ...doc.data() } as PostData;
-    } catch (error) {
-      console.error('Firebase Detail Fetch Error:', error);
-    }
-  }
-
   if (isServerless() && isMongoEnabled) {
     try {
       await dbConnect();
@@ -100,31 +80,6 @@ export async function savePost(data: PostData): Promise<PostData> {
     ...data,
     publishDate: publishDate.toISOString()
   };
-
-  if (isFirebaseEnabled) {
-    try {
-      const docRef = isUpdate && targetId
-        ? adminDb.collection('posts').doc(targetId as string)
-        : adminDb.collection('posts').doc();
-      
-      const finalData = {
-        ...refinedData,
-        id: docRef.id,
-        updatedAt: new Date().toISOString()
-      };
-      
-      if (!isUpdate) {
-        (finalData as any).createdAt = new Date().toISOString();
-        (finalData as any).source = data.source || 'manual';
-        (finalData as any).sourceId = data.sourceId || `manual-${Date.now()}`;
-      }
-      
-      await docRef.set(finalData, { merge: true });
-      return finalData as PostData;
-    } catch (error) {
-      console.error('Firebase Save Error:', error);
-    }
-  }
 
   if (isMongoEnabled) {
     try {
@@ -174,15 +129,6 @@ export async function savePost(data: PostData): Promise<PostData> {
 }
 
 export async function deletePost(id: string): Promise<boolean> {
-  if (isFirebaseEnabled && id) {
-    try {
-      await adminDb.collection('posts').doc(String(id)).delete();
-      return true;
-    } catch (error) {
-      console.error('Firebase Delete Error:', error);
-    }
-  }
-
   if (isMongoEnabled) {
     try {
       await dbConnect();
@@ -204,15 +150,6 @@ export async function deletePost(id: string): Promise<boolean> {
 }
 
 export async function getSettings(): Promise<SettingsData> {
-  if (isFirebaseEnabled) {
-    try {
-      const doc = await adminDb.collection('settings').doc('global').get();
-      if (doc.exists) return doc.data() as SettingsData;
-    } catch (error) {
-      console.error('Firebase Settings Fetch Error:', error);
-    }
-  }
-
   if (isMongoEnabled) {
     try {
       await dbConnect();
@@ -234,15 +171,6 @@ export async function getSettings(): Promise<SettingsData> {
 }
 
 export async function saveSettings(data: SettingsData): Promise<SettingsData> {
-  if (isFirebaseEnabled) {
-    try {
-      await adminDb.collection('settings').doc('global').set(data, { merge: true });
-      return data;
-    } catch (error) {
-      console.error('Firebase Settings Save Error:', error);
-    }
-  }
-
   if (isMongoEnabled) {
     try {
       await dbConnect();
@@ -263,15 +191,6 @@ export async function saveSettings(data: SettingsData): Promise<SettingsData> {
 }
 
 export async function getVideos(): Promise<any[]> {
-  if (isFirebaseEnabled) {
-    try {
-      const snapshot = await adminDb.collection('videos').get();
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    } catch (error) {
-      console.error('Firebase Videos Fetch Error:', error);
-    }
-  }
-
   // For now, videos are only in JSON to keep it simple as requested
   return readVideos();
 }
