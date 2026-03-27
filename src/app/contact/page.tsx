@@ -58,7 +58,8 @@ export default async function ContactPage() {
                     <div className="p-3 bg-primary text-white transition-colors rounded-lg"><Phone className="w-6 h-6" /></div>
                     <div className="ml-6 flex flex-col justify-center">
                         <h4 className="font-bold text-lg text-black group-hover:text-primary transition-colors">Phone Support</h4>
-                        <p className="text-gray-900 font-medium transition-colors mt-1">{settings.contactPhone}</p>
+                        <p className="text-black font-bold text-lg mt-1">{settings.contactPhone}</p>
+                        <p className="text-black font-bold text-lg">{settings.contactLandline || '0120-5044958'}</p>
                     </div>
                   </div>
 

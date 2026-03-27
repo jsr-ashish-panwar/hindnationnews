@@ -26,6 +26,7 @@ export interface SettingsData {
   tagline: string;
   contactEmail: string;
   contactPhone: string;
+  contactLandline: string;
   facebookUrl?: string;
   twitterUrl?: string;
   instagramUrl?: string;
@@ -165,6 +166,7 @@ export async function getSettings(): Promise<SettingsData> {
     tagline: "India's Voice, Your News Portal",
     contactEmail: 'hindnationnews18x7@gmail.com',
     contactPhone: '+91 99108 35426',
+    contactLandline: '0120-5044958',
     articlesPerPage: 10,
     breakingNewsTicker: 'Stay tuned for the latest breaking news from across India.'
   };

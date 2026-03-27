@@ -122,7 +122,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center space-x-3 text-gray-400">
                 <Phone className="w-4 h-4" />
-                <span className="text-sm font-medium">{contactInfo.phone}</span>
+                <span className="text-sm font-medium">{contactInfo.phone} <span className="text-xs opacity-50 ml-2">({settings?.contactLandline || '0120-5044958'})</span></span>
               </div>
             </div>
           </div>
