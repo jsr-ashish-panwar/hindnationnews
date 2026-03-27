@@ -49,6 +49,7 @@ interface Article {
 const getPostId = (post: Article) => post._id || post.id || '';
 
 const CATEGORIES = ['Politics', 'Local News', 'Real Estate', 'Entertainment', 'Trending', 'Economy', 'Sports'];
+const VIDEO_CATEGORIES = ['Crime Story', 'Sports', 'Politics', 'Health and Yoga', 'Bollywood', 'World News', 'General'];
 
 export default function AdminDashboard() {
   const [posts, setPosts] = useState<Article[]>([]);
@@ -60,6 +61,7 @@ export default function AdminDashboard() {
   const [newVideoUrl, setNewVideoUrl] = useState('');
   const [newVideoTitle, setNewVideoTitle] = useState('');
   const [isAddingVideo, setIsAddingVideo] = useState(false);
+  const [newVideoCategory, setNewVideoCategory] = useState('General');
   const [settingsSaved, setSettingsSaved] = useState(false);
   const [settings, setSettings] = useState({
     siteName: 'HIND NATION NEWS',
@@ -186,7 +188,8 @@ export default function AdminDashboard() {
       thumbnail: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
       url: newVideoUrl,
       duration: '00:00', // Mock duration or fetch if possible
-      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      category: newVideoCategory
     };
 
     try {
@@ -672,7 +675,7 @@ export default function AdminDashboard() {
             {isAddingVideo && (
               <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 mb-8 animate-in slide-in-from-top-4 duration-300">
                 <form onSubmit={handleAddVideo} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="space-y-2">
                       <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">YouTube Video URL</label>
                       <input 
@@ -694,6 +697,18 @@ export default function AdminDashboard() {
                         onChange={e => setNewVideoTitle(e.target.value)} 
                         className="w-full px-5 py-3.5 bg-gray-50 border-2 border-transparent focus:border-primary rounded-2xl font-bold text-sm outline-none transition-all text-black" 
                       />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Category</label>
+                      <select 
+                        value={newVideoCategory} 
+                        onChange={e => setNewVideoCategory(e.target.value)}
+                        className="w-full px-5 py-3.5 bg-gray-50 border-2 border-transparent focus:border-primary rounded-2xl font-bold text-sm outline-none transition-all text-black appearance-none"
+                      >
+                        {VIDEO_CATEGORIES.map(cat => (
+                          <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                      </select>
                     </div>
                   </div>
                   <button type="submit" className="w-full md:w-auto px-10 py-4 bg-primary text-black rounded-2xl font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all shadow-xl text-sm">
