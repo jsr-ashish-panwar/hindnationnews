@@ -1,8 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Calendar, User, Share2, ArrowLeft, TrendingUp, Clock, Tag } from 'lucide-react';
+import { ArrowLeft, TrendingUp, Clock, Tag } from 'lucide-react';
 import { getPostById, getPosts } from '@/lib/dataService';
+import ArticleMeta from '@/components/ArticleMeta';
 
 export const dynamic = 'force-dynamic';
 
@@ -57,32 +58,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
             </div>
 
             {/* Author & Meta */}
-            <div className="flex flex-wrap items-center justify-between py-6 border-y border-gray-100 gap-4">
-              <div className="flex items-center space-x-6">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-primary">
-                    <User className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Author</p>
-                    <p className="text-sm font-bold text-black">{post.author || 'HNN Correspondent'}</p>
-                  </div>
-                </div>
-                <div className="h-8 w-px bg-gray-100"></div>
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Published</p>
-                  <p className="text-sm font-bold text-black flex items-center">
-                    <Calendar className="w-3.5 h-3.5 mr-1.5 text-primary" />
-                    {formattedDate}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-2">
-                <button className="p-3 rounded-full hover:bg-gray-50 transition-colors text-gray-400 hover:text-black shadow-sm">
-                  <Share2 className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
+            <ArticleMeta 
+              author={post.author || 'HNN Correspondent'} 
+              publishDate={formattedDate} 
+              title={post.title} 
+            />
 
             {/* Featured Image */}
             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video lg:aspect-[21/9] bg-gray-100">
