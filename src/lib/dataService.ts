@@ -39,7 +39,7 @@ export interface SettingsData {
 const isMongoEnabled = !!process.env.MONGODB_URI && process.env.MONGODB_URI.startsWith('mongodb');
 
 export async function getPosts(): Promise<PostData[]> {
-  if (isServerless() && isMongoEnabled) {
+  if (isMongoEnabled) {
     try {
       await dbConnect();
       const posts = await Post.find({}).sort({ publishDate: -1 }).lean();
@@ -56,7 +56,7 @@ export async function getPosts(): Promise<PostData[]> {
 }
 
 export async function getPostById(id: string): Promise<PostData | null> {
-  if (isServerless() && isMongoEnabled) {
+  if (isMongoEnabled) {
     try {
       await dbConnect();
       const post = await Post.findOne({ $or: [{ _id: id }, { id: id }] }).lean();
@@ -104,7 +104,7 @@ export async function savePost(data: PostData): Promise<PostData> {
       }
     } catch (error) {
       console.error('MongoDB Save Error, fallback to JSON:', error);
-      if (isServerless()) throw error;
+      // if (isServerless()) throw error;
     }
   }
 
@@ -138,7 +138,7 @@ export async function deletePost(id: string): Promise<boolean> {
       if (result.deletedCount > 0) return true;
     } catch (error) {
       console.error('MongoDB Delete Error:', error);
-      if (isServerless()) throw error;
+      // if (isServerless()) throw error;
     }
   }
 
@@ -185,7 +185,7 @@ export async function saveSettings(data: SettingsData): Promise<SettingsData> {
       return JSON.parse(JSON.stringify(updated));
     } catch (error) {
       console.error('MongoDB Settings Save Error:', error);
-      if (isServerless()) throw error;
+      // if (isServerless()) throw error;
     }
   }
 
@@ -229,7 +229,7 @@ export async function saveVideo(data: any): Promise<any> {
       }
     } catch (error) {
       console.error('MongoDB Video Save Error:', error);
-      if (isServerless()) throw error;
+      // if (isServerless()) throw error;
     }
   }
 
@@ -261,7 +261,7 @@ export async function deleteVideo(id: string): Promise<boolean> {
       if (result.deletedCount > 0) return true;
     } catch (error) {
       console.error('MongoDB Video Delete Error:', error);
-      if (isServerless()) throw error;
+      // if (isServerless()) throw error;
     }
   }
 
