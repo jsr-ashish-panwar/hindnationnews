@@ -337,6 +337,17 @@ export default function AdminDashboard() {
 
       {/* Main Content */}
       <main className="flex-grow p-6 md:p-10 overflow-x-hidden w-full">
+        {!isMongo && (
+          <div className="mb-8 p-6 bg-red-600 text-white rounded-3xl shadow-xl animate-bounce">
+            <div className="flex items-center space-x-4">
+              <AlertCircle className="w-10 h-10 shrink-0" />
+              <div>
+                <h3 className="text-xl font-bold uppercase tracking-tight">Database Not Connected!</h3>
+                <p className="font-medium opacity-90 text-sm">You are currently in "Local JSON" mode. Any changes you make will be LOST on refresh. Please add the MONGODB_URI to your Netlify environment variables immediately.</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* ─── NEWS TAB ─── */}
         {activeTab === 'news' && (

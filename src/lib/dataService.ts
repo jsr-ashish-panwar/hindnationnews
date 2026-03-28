@@ -109,6 +109,10 @@ export async function savePost(data: PostData): Promise<PostData> {
   }
 
   // JSON Fallback
+  if (isServerless()) {
+    throw new Error('Database not connected. Cannot persist changes on Netlify/Vercel without MongoDB.');
+  }
+
   const posts = readPosts();
   const refinedPost = {
     ...refinedData,
@@ -189,6 +193,10 @@ export async function saveSettings(data: SettingsData): Promise<SettingsData> {
     }
   }
 
+  if (isServerless()) {
+    throw new Error('Database not connected. Cannot persist changes on Netlify/Vercel without MongoDB.');
+  }
+
   writeSettings(data);
   return data;
 }
@@ -234,6 +242,10 @@ export async function saveVideo(data: any): Promise<any> {
   }
 
   // JSON Fallback
+  if (isServerless()) {
+    throw new Error('Database not connected. Cannot persist changes on Netlify/Vercel without MongoDB.');
+  }
+
   const videos = readVideos();
   const refinedVideo = {
     ...data,
