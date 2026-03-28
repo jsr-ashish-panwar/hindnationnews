@@ -1,10 +1,12 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/hindnationnews';
+const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable inside .env.local or ensure a local MongoDB is running.');
+if (!MONGODB_URI && process.env.NODE_ENV === 'production') {
+  throw new Error('Please define the MONGODB_URI environment variable on Netlify.');
 }
+
+const connectionString = MONGODB_URI || 'mongodb://localhost:27017/hindnationnews';
 
 /**
  * Global is used here to maintain a cached connection across hot reloads
@@ -29,7 +31,8 @@ async function dbConnect() {
       serverSelectionTimeoutMS: 5000,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+    cached.promise = mongoose.connect(connectionString, opts).then((mongoose) => {
+      console.log('MongoDB Connected to:', connectionString.split('@')[1] || 'localhost');
       return mongoose;
     });
   }

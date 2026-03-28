@@ -12,6 +12,7 @@ export async function GET(request: Request) {
     envSet: !!process.env.MONGODB_URI,
     uriLength: process.env.MONGODB_URI?.length || 0,
     uriStartsWith: process.env.MONGODB_URI?.substring(0, 15),
+    uriEndsWith: process.env.MONGODB_URI ? `...${process.env.MONGODB_URI.slice(-4)}` : null,
     connectionState: mongoose.connection.readyState,
     dbName: mongoose.connection.name,
     error: null,
