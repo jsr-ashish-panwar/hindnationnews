@@ -63,6 +63,7 @@ export default function AdminDashboard() {
   const [isAddingVideo, setIsAddingVideo] = useState(false);
   const [newVideoCategory, setNewVideoCategory] = useState('General');
   const [isMongo, setIsMongo] = useState(false);
+  const [dbDiag, setDbDiag] = useState<any>(null);
   const [settingsSaved, setSettingsSaved] = useState(false);
   const [settings, setSettings] = useState({
     siteName: 'HIND NATION NEWS',
@@ -84,7 +85,21 @@ export default function AdminDashboard() {
     fetchPosts(secret);
     fetchSettings(secret);
     fetchVideos(secret);
+    fetchDebug(secret);
   }, []);
+
+  const fetchDebug = async (secret: string) => {
+    try {
+      const res = await fetch('/api/admin/debug-db', { headers: { 'x-admin-secret': secret } });
+      if (res.ok) {
+        const data = await res.json();
+        setDbDiag(data);
+        if (data.status === 'Success') setIsMongo(true);
+      }
+    } catch (err) {
+      console.error('Debug fetch failed:', err);
+    }
+  };
 
   const fetchVideos = async (secret: string) => {
     try {
@@ -343,7 +358,18 @@ export default function AdminDashboard() {
               <AlertCircle className="w-10 h-10 shrink-0" />
               <div>
                 <h3 className="text-xl font-bold uppercase tracking-tight">Database Not Connected!</h3>
-                <p className="font-medium opacity-90 text-sm">You are currently in "Local JSON" mode. Any changes you make will be LOST on refresh. Please add the MONGODB_URI to your Netlify environment variables immediately.</p>
+                <p className="font-medium opacity-90 text-sm">
+                  {dbDiag?.error 
+                    ? `Connection failed: ${dbDiag.error}` 
+                    : "You are currently in 'Local JSON' mode. Any changes you make will be LOST on refresh. Please ensure MONGODB_URI is set correctly in Netlify."}
+                </p>
+                {dbDiag && (
+                   <div className="mt-2 text-[10px] font-mono opacity-60 bg-black/20 p-2 rounded">
+                      URI Set: {dbDiag.envSet ? 'YES' : 'NO'} | 
+                      State: {dbDiag.connectionState} | 
+                      DB: {dbDiag.dbName}
+                   </div>
+                )}
               </div>
             </div>
           </div>
