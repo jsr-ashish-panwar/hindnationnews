@@ -1,6 +1,7 @@
 import dbConnect from './mongodb';
 import Post from '@/models/Post';
 import Settings from '@/models/Settings';
+import Video from '@/models/Video';
 import { readPosts, writePosts, readSettings, writeSettings, readVideos, writeVideos } from './jsonDb';
 
 export interface PostData {
@@ -193,8 +194,84 @@ export async function saveSettings(data: SettingsData): Promise<SettingsData> {
 }
 
 export async function getVideos(): Promise<any[]> {
-  // For now, videos are only in JSON to keep it simple as requested
+  if (isMongoEnabled) {
+    try {
+      await dbConnect();
+      const videos = await Video.find({}).sort({ publishDate: -1 }).lean();
+      if (videos && videos.length > 0) return JSON.parse(JSON.stringify(videos));
+    } catch (error) {
+      console.error('MongoDB Video Fetch Error:', error);
+    }
+  }
   return readVideos();
+}
+
+export async function saveVideo(data: any): Promise<any> {
+  const isUpdate = !!data.id;
+  
+  if (isMongoEnabled) {
+    try {
+      await dbConnect();
+      if (isUpdate) {
+        const updated = await Video.findOneAndUpdate(
+          { id: data.id },
+          { ...data, updatedAt: new Date() },
+          { new: true, upsert: true }
+        ).lean();
+        return JSON.parse(JSON.stringify(updated));
+      } else {
+        const created = await Video.create({
+          ...data,
+          id: data.id || `vid-${Date.now()}`,
+          publishDate: data.publishDate || new Date()
+        });
+        return JSON.parse(JSON.stringify(created));
+      }
+    } catch (error) {
+      console.error('MongoDB Video Save Error:', error);
+      if (isServerless()) throw error;
+    }
+  }
+
+  // JSON Fallback
+  const videos = readVideos();
+  const refinedVideo = {
+    ...data,
+    id: data.id || `vid-${Date.now()}`,
+    updatedAt: new Date().toISOString()
+  };
+
+  if (isUpdate) {
+    const idx = videos.findIndex((v: any) => v.id === data.id);
+    if (idx !== -1) videos[idx] = refinedVideo;
+    else videos.push(refinedVideo);
+  } else {
+    videos.unshift(refinedVideo);
+  }
+
+  writeVideos(videos);
+  return refinedVideo;
+}
+
+export async function deleteVideo(id: string): Promise<boolean> {
+  if (isMongoEnabled) {
+    try {
+      await dbConnect();
+      const result = await Video.deleteOne({ id });
+      if (result.deletedCount > 0) return true;
+    } catch (error) {
+      console.error('MongoDB Video Delete Error:', error);
+      if (isServerless()) throw error;
+    }
+  }
+
+  const videos = readVideos();
+  const filtered = videos.filter((v: any) => v.id !== id);
+  if (filtered.length < videos.length) {
+    writeVideos(filtered);
+    return true;
+  }
+  return false;
 }
 
 function isServerless() {

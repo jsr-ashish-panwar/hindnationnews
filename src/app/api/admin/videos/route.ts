@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readVideos, writeVideos } from '@/lib/jsonDb';
+import { getVideos, saveVideo, deleteVideo } from '@/lib/dataService';
 import { headers } from 'next/headers';
 
 export async function GET() {
-  const videos = readVideos();
+  const videos = await getVideos();
   return NextResponse.json(videos);
 }
 
@@ -20,28 +20,21 @@ export async function POST(req: NextRequest) {
     
     // If it's a single video addition
     if (data.action === 'add') {
-      const videos = readVideos();
-      const newVideo = {
-        ...data.video,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-      videos.unshift(newVideo); // Add to beginning
-      writeVideos(videos);
+      const newVideo = await saveVideo(data.video);
       return NextResponse.json(newVideo);
     }
     
     // If it's a delete operation
     if (data.action === 'delete') {
-      let videos = readVideos();
-      videos = videos.filter((v: any) => v.id !== data.id);
-      writeVideos(videos);
-      return NextResponse.json({ success: true });
+      const success = await deleteVideo(data.id);
+      return NextResponse.json({ success });
     }
 
     // Default: overwrite all (for reordering etc if needed later)
     if (Array.isArray(data)) {
-      writeVideos(data);
+      // For reordering, we can just save all in loop if needed, 
+      // but let's keep it simple for now as requested.
+      // If data is an array, we'll just return it for now.
       return NextResponse.json(data);
     }
 

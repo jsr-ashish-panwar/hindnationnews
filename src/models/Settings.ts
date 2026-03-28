@@ -6,6 +6,7 @@ export interface ISettings extends Document {
   tagline: string;
   contactEmail: string;
   contactPhone: string;
+  contactLandline: string;
   facebookUrl?: string;
   twitterUrl?: string;
   instagramUrl?: string;
@@ -20,6 +21,7 @@ const SettingsSchema: Schema = new Schema({
   tagline: { type: String, default: "India's Voice, Your News Portal" },
   contactEmail: { type: String, default: 'hindnationnews18x7@gmail.com' },
   contactPhone: { type: String, default: '+91 99108 35426' },
+  contactLandline: { type: String, default: '0120-5044958' },
   facebookUrl: { type: String },
   twitterUrl: { type: String, default: 'https://x.com/cahindnews' },
   instagramUrl: { type: String, default: 'https://www.instagram.com/hind_nation_news_15x7' },
