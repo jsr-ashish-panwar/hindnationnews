@@ -62,6 +62,7 @@ export default function AdminDashboard() {
   const [newVideoTitle, setNewVideoTitle] = useState('');
   const [isAddingVideo, setIsAddingVideo] = useState(false);
   const [newVideoCategory, setNewVideoCategory] = useState('General');
+  const [isMongo, setIsMongo] = useState(false);
   const [settingsSaved, setSettingsSaved] = useState(false);
   const [settings, setSettings] = useState({
     siteName: 'HIND NATION NEWS',
@@ -102,7 +103,11 @@ export default function AdminDashboard() {
       const res = await fetch('/api/admin/posts', { headers: { 'x-admin-secret': secret } });
       if (res.status === 401) { localStorage.removeItem('admin_secret'); router.push('/admin/login'); return; }
       const data = await res.json();
-      if (Array.isArray(data)) setPosts(data);
+      if (Array.isArray(data)) {
+        setPosts(data);
+        // Check if data is coming from Mongo (all MongoDB docs have _id)
+        if (data.length > 0 && data[0]._id) setIsMongo(true);
+      }
       else setError(data.error || 'Failed to fetch posts');
     } catch { setError('Connection error'); }
     finally { setLoading(false); }
@@ -312,6 +317,15 @@ export default function AdminDashboard() {
         </nav>
 
         <div className="pt-6 border-t border-white/10 mt-6 space-y-2">
+          <div className="px-4 py-2 bg-white/5 rounded-xl border border-white/10 mb-4">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">DB Status</span>
+              <div className={`flex items-center space-x-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase ${isMongo ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                <div className={`w-1.5 h-1.5 rounded-full ${isMongo ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                <span>{isMongo ? 'MongoDB Atlas' : 'Local JSON'}</span>
+              </div>
+            </div>
+          </div>
           <Link href="/admin/new" className="w-full flex items-center space-x-3 p-4 font-bold rounded-2xl transition-all bg-primary/10 text-primary hover:bg-primary hover:text-black">
             <Plus className="w-5 h-5" /><span>New Article</span>
           </Link>

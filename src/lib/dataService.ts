@@ -103,8 +103,8 @@ export async function savePost(data: PostData): Promise<PostData> {
         return JSON.parse(JSON.stringify(created));
       }
     } catch (error) {
-      console.error('MongoDB Save Error, fallback to JSON:', error);
-      // if (isServerless()) throw error;
+      console.error('MongoDB Save Error:', error);
+      throw error;
     }
   }
 
@@ -138,7 +138,7 @@ export async function deletePost(id: string): Promise<boolean> {
       if (result.deletedCount > 0) return true;
     } catch (error) {
       console.error('MongoDB Delete Error:', error);
-      // if (isServerless()) throw error;
+      throw error;
     }
   }
 
@@ -185,7 +185,7 @@ export async function saveSettings(data: SettingsData): Promise<SettingsData> {
       return JSON.parse(JSON.stringify(updated));
     } catch (error) {
       console.error('MongoDB Settings Save Error:', error);
-      // if (isServerless()) throw error;
+      throw error;
     }
   }
 
@@ -229,7 +229,7 @@ export async function saveVideo(data: any): Promise<any> {
       }
     } catch (error) {
       console.error('MongoDB Video Save Error:', error);
-      // if (isServerless()) throw error;
+      throw error;
     }
   }
 
@@ -261,7 +261,7 @@ export async function deleteVideo(id: string): Promise<boolean> {
       if (result.deletedCount > 0) return true;
     } catch (error) {
       console.error('MongoDB Video Delete Error:', error);
-      // if (isServerless()) throw error;
+      throw error;
     }
   }
 
