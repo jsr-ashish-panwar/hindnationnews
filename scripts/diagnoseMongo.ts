@@ -20,12 +20,18 @@ async function diagnose() {
     const dbName = mongoose.connection.name;
     console.log('Database Name:', dbName);
 
+    if (!mongoose.connection.db) {
+      throw new Error('Database connection established but db object is undefined');
+    }
+
     const collections = await mongoose.connection.db.listCollections().toArray();
     console.log('Collections:', collections.map(c => c.name));
 
     for (const coll of collections) {
-      const count = await mongoose.connection.db.collection(coll.name).countDocuments();
-      console.log(`Collection ${coll.name} Count:`, count);
+      if (mongoose.connection.db) {
+        const count = await mongoose.connection.db.collection(coll.name).countDocuments();
+        console.log(`Collection ${coll.name} Count:`, count);
+      }
     }
 
     process.exit(0);
