@@ -34,9 +34,9 @@ export default function JournalistPage() {
                  A visionary digital journalist and the force behind HIND NATION NEWS, dedicated to grassroot stories with uncompromising integrity.
                </p>
                 <div className="flex justify-center md:justify-start space-x-8">
-                   <a href="#" className="p-4 bg-white/10 hover:bg-primary transition-all rounded-xl"><Twitter className="w-8 h-8" /></a>
-                   <a href="#" className="p-4 bg-white/10 hover:bg-primary transition-all rounded-xl"><Instagram className="w-8 h-8" /></a>
-                   <a href="#" className="p-4 bg-white/10 hover:bg-primary transition-all rounded-xl"><Youtube className="w-8 h-8" /></a>
+                   <a href="https://x.com/cahindnews" target="_blank" rel="noopener noreferrer" className="p-4 bg-white/10 hover:bg-primary transition-all rounded-xl"><Twitter className="w-8 h-8" /></a>
+                   <a href="https://www.instagram.com/lalit_shishodia_15?igsh=eWV1NGYzbDZxZDRh" target="_blank" rel="noopener noreferrer" className="p-4 bg-white/10 hover:bg-primary transition-all rounded-xl"><Instagram className="w-8 h-8" /></a>
+                   <a href="https://www.youtube.com/@lalitshishodia15" target="_blank" rel="noopener noreferrer" className="p-4 bg-white/10 hover:bg-primary transition-all rounded-xl"><Youtube className="w-8 h-8" /></a>
                  </div>
             </div>
           </div>
