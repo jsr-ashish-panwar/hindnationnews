@@ -25,7 +25,7 @@ export default async function InstagramPage() {
               </div>
               <div className="text-center md:text-left space-y-4">
                  <div className="flex flex-col md:flex-row items-center md:space-x-4 mb-4">
-                    <h1 className="text-3xl font-bold tracking-tight text-black">lalit_shishodia_15</h1>
+                    <h1 className="text-3xl font-bold tracking-tight text-black">hind_nation_news_15x7</h1>
                     <div className="flex space-x-3 mt-4 md:mt-0">
                         <button className="bg-[#0095f6] hover:bg-[#1877f2] text-white px-6 py-1.5 rounded-lg font-bold text-sm transition-colors shadow-sm">Follow</button>
                         <button className="bg-gray-100 hover:bg-gray-200 px-6 py-1.5 rounded-lg font-bold text-sm transition-colors text-black border border-gray-200">Message</button>
@@ -86,7 +86,7 @@ export default async function InstagramPage() {
                                     <img src="/hindnews.png" alt="HNN" />
                                  </div>
                               </div>
-                              <span className="text-sm font-bold uppercase tracking-widest">lalit_shishodia_15</span>
+                              <span className="text-sm font-bold uppercase tracking-widest">hind_nation_news_15x7</span>
                            </div>
                            <p className="text-gray-800 text-[15px] leading-relaxed line-clamp-3 italic">"{post.content || post.title}"</p>
                            <div className="flex items-center justify-between pt-4 border-t border-gray-100">
@@ -105,7 +105,7 @@ export default async function InstagramPage() {
             )}
             
             <div className="mt-20 flex justify-center">
-               <a href="https://www.instagram.com/lalit_shishodia_15?igsh=eWV1NGYzbDZxZDRh" target="_blank" rel="noopener noreferrer" className="bg-black text-white px-12 py-4 rounded-xl font-bold uppercase tracking-[0.3em] text-xs hover:bg-primary transition-all shadow-xl hover:-translate-y-1">Explore More on Instagram</a>
+               <a href="https://www.instagram.com/hind_nation_news_15x7?igsh=MXhjM3p1dW53MGJoNA==" target="_blank" rel="noopener noreferrer" className="bg-black text-white px-12 py-4 rounded-xl font-bold uppercase tracking-[0.3em] text-xs hover:bg-primary transition-all shadow-xl hover:-translate-y-1">Explore More on Instagram</a>
             </div>
          </div>
       </section>

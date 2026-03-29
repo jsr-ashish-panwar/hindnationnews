@@ -89,9 +89,9 @@ export default function JournalistPage() {
             {/* Lalit Shishodia - Featured Card */}
             <div className="group space-y-6">
               <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl transition-all duration-500 group-hover:-translate-y-2 border-4 border-primary">
-                <img 
-                  src="/lalitsh.png" 
-                  alt="Lalit Shishodia" 
+                <img
+                  src="/lalitsh.png"
+                  alt="Lalit Shishodia"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute top-4 right-4 bg-primary text-white text-[8px] font-black px-3 py-1 rounded-full uppercase tracking-[0.2em] shadow-xl">Founder</div>
@@ -105,27 +105,27 @@ export default function JournalistPage() {
             {/* Nisha Verma */}
             <div className="group space-y-6">
               <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-xl transition-all duration-500 group-hover:-translate-y-2">
-                <img 
-                  src="/Nisha.png" 
-                  alt="Nisha Verma" 
+                <img
+                  src="/Nisha.png"
+                  alt="Nisha Verma"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                   <p className="text-white font-bold text-xs uppercase tracking-widest">Chief Managing Director</p>
+                  <p className="text-white font-bold text-xs uppercase tracking-widest">Chief Managing Director</p>
                 </div>
               </div>
               <div className="px-2">
                 <h3 className="text-xl font-black uppercase tracking-tight text-black group-hover:text-primary transition-colors">Nisha Verma</h3>
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mt-1">Noida, Uttar Pradesh</p>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mt-1">CMD (Noida, Uttar Pradesh)</p>
               </div>
             </div>
 
             {/* Deepak Verma */}
             <div className="group space-y-6 bg-gray-50/50 p-4 rounded-[2.5rem] border border-transparent hover:border-primary/20 transition-all">
               <div className="relative aspect-square overflow-hidden rounded-[2rem] shadow-lg transition-all duration-500 group-hover:rotate-1">
-                <img 
-                  src="/Deepak.png" 
-                  alt="Deepak Verma" 
+                <img
+                  src="/Deepak.png"
+                  alt="Deepak Verma"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
@@ -135,14 +135,14 @@ export default function JournalistPage() {
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mt-1">Noida Reporter</p>
                 </div>
                 <div className="space-y-2 pt-2 border-t border-gray-200">
-                    <div className="flex items-center text-[11px] font-bold text-gray-600">
-                        <Phone className="w-3 h-3 mr-2 text-primary" />
-                        <span>+91 98711 78278</span>
-                    </div>
-                    <div className="flex items-start text-[10px] font-medium text-gray-500 leading-tight">
-                        <MapPin className="w-3 h-3 mr-2 text-primary shrink-0 mt-0.5" />
-                        <span>Hindon Vihar Sector 49<br/>Noida, Uttar Pradesh</span>
-                    </div>
+                  <div className="flex items-center text-[11px] font-bold text-gray-600">
+                    <Phone className="w-3 h-3 mr-2 text-primary" />
+                    <span>+91 98711 78278</span>
+                  </div>
+                  <div className="flex items-start text-[10px] font-medium text-gray-500 leading-tight">
+                    <MapPin className="w-3 h-3 mr-2 text-primary shrink-0 mt-0.5" />
+                    <span>Hindon Vihar Sector 49<br />Noida, Uttar Pradesh</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -150,9 +150,9 @@ export default function JournalistPage() {
             {/* Brijesh Kumar */}
             <div className="group space-y-6 bg-gray-50/50 p-4 rounded-[2.5rem] border border-transparent hover:border-primary/20 transition-all">
               <div className="relative aspect-square overflow-hidden rounded-[2rem] shadow-lg transition-all duration-500 group-hover:-rotate-1">
-                <img 
-                  src="/Brijesh.png" 
-                  alt="Brijesh Kumar" 
+                <img
+                  src="/Brijesh.png"
+                  alt="Brijesh Kumar"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
@@ -162,14 +162,14 @@ export default function JournalistPage() {
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mt-1">Reporter, Dhaulana</p>
                 </div>
                 <div className="space-y-2 pt-2 border-t border-gray-200">
-                    <div className="flex items-center text-[11px] font-bold text-gray-600">
-                        <Phone className="w-3 h-3 mr-2 text-primary" />
-                        <span>+91 99278 46712</span>
-                    </div>
-                    <div className="flex items-start text-[10px] font-medium text-gray-500 leading-tight">
-                        <MapPin className="w-3 h-3 mr-2 text-primary shrink-0 mt-0.5" />
-                        <span>Village-Sapnawat<br/>Dhaulana, Uttar Pradesh</span>
-                    </div>
+                  <div className="flex items-center text-[11px] font-bold text-gray-600">
+                    <Phone className="w-3 h-3 mr-2 text-primary" />
+                    <span>+91 99278 46712</span>
+                  </div>
+                  <div className="flex items-start text-[10px] font-medium text-gray-500 leading-tight">
+                    <MapPin className="w-3 h-3 mr-2 text-primary shrink-0 mt-0.5" />
+                    <span>Village-Sapnawat<br />Dhaulana, Uttar Pradesh</span>
+                  </div>
                 </div>
               </div>
             </div>

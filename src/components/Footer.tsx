@@ -39,12 +39,12 @@ export default function Footer() {
 
   const socialLinks = settings ? {
     twitter: settings.twitterUrl || 'https://x.com/cahindnews',
-    instagram: settings.instagramUrl || 'https://www.instagram.com/lalit_shishodia_15?igsh=eWV1NGYzbDZxZDRh',
+    instagram: settings.instagramUrl || 'https://www.instagram.com/hind_nation_news_15x7?igsh=MXhjM3p1dW53MGJoNA==',
     youtube: settings.youtubeUrl || 'https://www.youtube.com/@lalitshishodia15',
     whatsapp: `https://wa.me/${(settings.contactPhone || '919910835426').replace(/\D/g, '')}`
   } : {
     twitter: 'https://x.com/cahindnews',
-    instagram: 'https://www.instagram.com/lalit_shishodia_15?igsh=eWV1NGYzbDZxZDRh',
+    instagram: 'https://www.instagram.com/hind_nation_news_15x7?igsh=MXhjM3p1dW53MGJoNA==',
     youtube: 'https://www.youtube.com/@lalitshishodia15',
     whatsapp: 'https://wa.me/919910835426'
   };
