@@ -22,7 +22,7 @@ export default function JournalistPage() {
             <div className="w-64 h-64 md:w-80 md:h-80 shrink-0 relative">
               <div className="absolute inset-0 border-4 border-primary translate-x-2 translate-y-2"></div>
               <img
-                src="/lalit.PNG"
+                src="/lalitsh.png"
                 alt="Lalit Shishodia"
                 className="w-full h-full object-cover relative z-10 hover:scale-105 transition-all duration-500 shadow-xl"
               />
@@ -90,7 +90,7 @@ export default function JournalistPage() {
             <div className="group space-y-6">
               <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl transition-all duration-500 group-hover:-translate-y-2 border-4 border-primary">
                 <img 
-                  src="/lalitsh.jpeg" 
+                  src="/lalitsh.png" 
                   alt="Lalit Shishodia" 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
@@ -106,7 +106,7 @@ export default function JournalistPage() {
             <div className="group space-y-6">
               <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-xl transition-all duration-500 group-hover:-translate-y-2">
                 <img 
-                  src="/nishaverma.jpeg" 
+                  src="/Nisha.png" 
                   alt="Nisha Verma" 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
@@ -124,7 +124,7 @@ export default function JournalistPage() {
             <div className="group space-y-6 bg-gray-50/50 p-4 rounded-[2.5rem] border border-transparent hover:border-primary/20 transition-all">
               <div className="relative aspect-square overflow-hidden rounded-[2rem] shadow-lg transition-all duration-500 group-hover:rotate-1">
                 <img 
-                  src="/deepakverma.jpeg" 
+                  src="/Deepak.png" 
                   alt="Deepak Verma" 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
@@ -151,7 +151,7 @@ export default function JournalistPage() {
             <div className="group space-y-6 bg-gray-50/50 p-4 rounded-[2.5rem] border border-transparent hover:border-primary/20 transition-all">
               <div className="relative aspect-square overflow-hidden rounded-[2rem] shadow-lg transition-all duration-500 group-hover:-rotate-1">
                 <img 
-                  src="/brijesh.jpeg" 
+                  src="/Brijesh.png" 
                   alt="Brijesh Kumar" 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
