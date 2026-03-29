@@ -86,6 +86,22 @@ export default function JournalistPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+            {/* Lalit Shishodia - Featured Card */}
+            <div className="group space-y-6">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl transition-all duration-500 group-hover:-translate-y-2 border-4 border-primary">
+                <img 
+                  src="/lalitsh.jpeg" 
+                  alt="Lalit Shishodia" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute top-4 right-4 bg-primary text-white text-[8px] font-black px-3 py-1 rounded-full uppercase tracking-[0.2em] shadow-xl">Founder</div>
+              </div>
+              <div className="px-2">
+                <h3 className="text-xl font-black uppercase tracking-tight text-black group-hover:text-primary transition-colors">Lalit Shishodia</h3>
+                <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mt-1 italic">CEO & Lead Journalist</p>
+              </div>
+            </div>
+
             {/* Nisha Verma */}
             <div className="group space-y-6">
               <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-xl transition-all duration-500 group-hover:-translate-y-2">
@@ -101,22 +117,6 @@ export default function JournalistPage() {
               <div className="px-2">
                 <h3 className="text-xl font-black uppercase tracking-tight text-black group-hover:text-primary transition-colors">Nisha Verma</h3>
                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mt-1">Noida, Uttar Pradesh</p>
-              </div>
-            </div>
-
-            {/* Lalit Shishodia - Featured Card */}
-            <div className="group space-y-6">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl transition-all duration-500 group-hover:-translate-y-2 border-4 border-primary">
-                <img 
-                  src="/lalitsh.jpeg" 
-                  alt="Lalit Shishodia" 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute top-4 right-4 bg-primary text-white text-[8px] font-black px-3 py-1 rounded-full uppercase tracking-[0.2em] shadow-xl">Founder</div>
-              </div>
-              <div className="px-2">
-                <h3 className="text-xl font-black uppercase tracking-tight text-black group-hover:text-primary transition-colors">Lalit Shishodia</h3>
-                <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mt-1 italic">CEO & Lead Journalist</p>
               </div>
             </div>
 
