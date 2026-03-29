@@ -74,6 +74,68 @@ export default function JournalistPage() {
           </div>
         </div>
       </section>
+      {/* HNN Team Section */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-black mb-4">
+              HNN <span className="text-primary italic">Team</span>
+            </h2>
+            <div className="w-24 h-1.5 bg-primary mx-auto rounded-full"></div>
+            <p className="mt-6 text-gray-500 font-bold uppercase tracking-widest text-sm">The pillars of Hind Nation News</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+            {/* Nisha Verma */}
+            <div className="group space-y-6 text-center">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl transition-all duration-500 group-hover:-translate-y-2">
+                <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
+                <img 
+                  src="/nishaverma.jpeg" 
+                  alt="Nisha Verma" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+              </div>
+              <div>
+                <h3 className="text-2xl font-black uppercase tracking-tight text-black group-hover:text-primary transition-colors">Nisha Verma</h3>
+                <p className="text-sm font-bold text-gray-400 uppercase tracking-[0.2em] mt-2">Chief Managing Director, Noida</p>
+              </div>
+            </div>
+
+            {/* Lalit Shishodia */}
+            <div className="group space-y-6 text-center">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl transition-all duration-500 group-hover:-translate-y-2 border-4 border-primary">
+                <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
+                <img 
+                  src="/lalitsh.jpeg" 
+                  alt="Lalit Shishodia" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+              </div>
+              <div>
+                <h3 className="text-2xl font-black uppercase tracking-tight text-black group-hover:text-primary transition-colors">Lalit Shishodia</h3>
+                <p className="text-sm font-bold text-primary uppercase tracking-[0.2em] mt-2">CEO & Founder</p>
+              </div>
+            </div>
+
+            {/* Deepak Verma */}
+            <div className="group space-y-6 text-center">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl transition-all duration-500 group-hover:-translate-y-2">
+                <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
+                <img 
+                  src="/deepakverma.jpeg" 
+                  alt="Deepak Verma" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+              </div>
+              <div>
+                <h3 className="text-2xl font-black uppercase tracking-tight text-black group-hover:text-primary transition-colors">Deepak Verma</h3>
+                <p className="text-sm font-bold text-gray-400 uppercase tracking-[0.2em] mt-2">Noida Reporter</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
