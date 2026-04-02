@@ -108,6 +108,13 @@ const teamMembers = [
     phone: "+91 99278 46712",
     location: "Village-Sapnawat\nDhaulana, Uttar Pradesh",
     type: "reporter"
+  },
+  {
+    name: "Afzal Mumbai",
+    role: "Reporter Mumbai",
+    image: "/afzal.png",
+    phone: "+91 98927 84160",
+    type: "reporter"
   }
 ];
 
