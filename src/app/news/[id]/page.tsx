@@ -1,4 +1,5 @@
 import React from 'react';
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, TrendingUp, Clock, Tag } from 'lucide-react';
@@ -6,6 +7,36 @@ import { getPostById, getPosts } from '@/lib/dataService';
 import ArticleMeta from '@/components/ArticleMeta';
 
 export const dynamic = 'force-dynamic';
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const post = await getPostById(id);
+
+  if (!post) {
+    return {
+      title: 'Article Not Found',
+    };
+  }
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      images: [post.image],
+      type: 'article',
+      publishedTime: new Date(post.publishDate).toISOString(),
+      authors: [post.author || 'HNN Correspondent'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      images: [post.image],
+    },
+  };
+}
 
 export default async function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

@@ -1,5 +1,11 @@
 import React from 'react';
+import { Metadata } from 'next';
 import { Youtube, Instagram, Twitter, Phone, MapPin } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "Our Journalists & Team",
+  description: "Meet the dedicated team of journalists at HIND NATION NEWS, led by Lalit Shishodia. Grassroots reporting with integrity.",
+};
 import { cn } from '@/lib/utils';
 
 const recentArticles = [

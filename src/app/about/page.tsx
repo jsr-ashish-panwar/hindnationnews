@@ -1,4 +1,10 @@
 import React from 'react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "About HIND NATION NEWS",
+  description: "Learn about the mission and history of HIND NATION NEWS, India's premier digital news portal led by Lalit Shishodia.",
+};
 
 export default function AboutPage() {
   return (
